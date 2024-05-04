@@ -100,4 +100,65 @@ class CalculatorGUI extends JFrame implements ActionListener
 
         return panel;
     }
+    // Выполнение нажатия кнопки
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() == calculateButton)
+        {
+            double area = Double.parseDouble(areaField.getText());
+            double totalCost = calculateTotalCost(area);
+            resultArea.setText("Общая стоимость строительства: " + totalCost + " руб.");
+        }
+    }
+
+    // Метод - калькулятор суммы
+    private double calculateTotalCost(double area)
+    {
+        double totalCost = 0;
+
+        for (JRadioButton button : foundationButtons) {
+            if (button.isSelected()) {
+                String[] parts = button.getText().split(" ");
+                String priceString = parts[parts.length - 2].replaceAll("[^\\d.]", "");
+                double price = Double.parseDouble(priceString);
+                Foundation foundation = new Foundation(button.getText(), price);
+                totalCost += foundation.calculateCost(area);
+                break;
+            }
+        }
+
+        for (JRadioButton button : wallButtons) {
+            if (button.isSelected()) {
+                String[] parts = button.getText().split(" ");
+                String priceString = parts[parts.length - 2].replaceAll("[^\\d.]", "");
+                double price = Double.parseDouble(priceString);
+                Wall wall = new Wall(button.getText(), price);
+                totalCost += wall.calculateCost(area);
+                break;
+            }
+        }
+
+        for (JRadioButton button : roofButtons) {
+            if (button.isSelected()) {
+                String[] parts = button.getText().split(" ");
+                String priceString = parts[parts.length - 2].replaceAll("[^\\d.]", "");
+                double price = Double.parseDouble(priceString);
+                Roof roof = new Roof(button.getText(), price);
+                totalCost += roof.calculateCost(area);
+                break;
+            }
+        }
+
+        for (JRadioButton button : finishingButtons) {
+            if (button.isSelected()) {
+                String[] parts = button.getText().split(" ");
+                String priceString = parts[parts.length - 2].replaceAll("[^\\d.]", "");
+                double price = Double.parseDouble(priceString);
+                Finishing finishing = new Finishing(button.getText(), price);
+                totalCost += finishing.calculateCost(area);
+                break;
+            }
+        }
+        return totalCost;
+    }
 }
