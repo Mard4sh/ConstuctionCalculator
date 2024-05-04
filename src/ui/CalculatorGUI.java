@@ -1,6 +1,14 @@
 package ui;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import model.Foundation;
+import model.Wall;
+import model.Roof;
+import model.Finishing;
 
 // Главное окно
 class CalculatorGUI extends JFrame implements ActionListener
