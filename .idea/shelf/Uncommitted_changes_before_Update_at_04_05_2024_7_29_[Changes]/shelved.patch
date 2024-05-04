@@ -1,0 +1,170 @@
+Index: src/ui/CalculatorGUI.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ui;\r\n\r\nimport model.Foundation;\r\n\r\n// Главное окно\r\nclass CalculatorGUI extends JFrame implements ActionListener\r\n{\r\n    private JRadioButton[] foundationButtons, wallButtons, roofButtons, finishingButtons;\r\n    private JTextField areaField;\r\n    private JTextArea resultArea;\r\n    private JButton calculateButton;\r\n\r\n    public CalculatorGUI()\r\n    {\r\n        super(\"Калькулятор стоимости строительства частного дома\");\r\n        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\r\n        setSize(400, 510);\r\n        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));\r\n\r\n        // Фундамент\r\n        JPanel foundationPanel = createElementPanel(\"Фундамент\",\r\n                new String[]{\"Ленточный (4000 руб)\", \"Плитный (5000 руб)\", \"Свайный (3000 руб)\"},\r\n                new double[]{4000, 5000, 3000});\r\n        add(foundationPanel);\r\n\r\n        // Стены\r\n        JPanel wallButtons = createElementPanel(\"Стены\",\r\n                new String[]{\"Кирпичные (8000 руб)\", \"Газобетонные (5000 руб)\", \"Каркасные (3000 руб)\"},\r\n                new double[]{8000, 6000, 4000});\r\n        add(wallButtons);\r\n\r\n        // Крыша\r\n        JPanel roofButtons = createElementPanel(\"Крыша\",\r\n                new String[]{\"Металлочерепица (4000 руб)\", \"Мягкая кровля (3000 руб)\", \"Шифер (2000 руб)\"},\r\n                new double[]{4000, 3000, 2000});\r\n        add(roofButtons);\r\n\r\n        // Отделка\r\n        JPanel finishingButtons = createElementPanel(\"Отделка\",\r\n                new String[]{\"Ленточный (8000 руб)\", \"Плитный (5000 руб)\", \"Свайный (3000 руб)\"},\r\n                new double[]{8000, 5000, 3000});\r\n        add(finishingButtons);\r\n\r\n        // Площадь\r\n        areaField = new JTextField(10);\r\n        JPanel areaPanel = new JPanel();\r\n        areaPanel.add(new JLabel(\"Площадь дома (кв.м.):\"));\r\n        areaPanel.add(areaField);\r\n        add(areaPanel);\r\n\r\n        // Кнопка\r\n        JPanel buttonPanel = new JPanel();\r\n        calculateButton = new JButton(\"Рассчитать\");\r\n        calculateButton.addActionListener(this);\r\n        buttonPanel.add(calculateButton);\r\n        add(buttonPanel);\r\n\r\n        // Область вывода\r\n        JPanel resultPanel = new JPanel();\r\n        resultPanel.add(new JScrollPane(resultArea));\r\n        resultArea = new JTextArea();\r\n        resultArea.setEditable(false);\r\n        add(new JScrollPane(resultArea));\r\n        add(resultPanel);\r\n\r\n        setVisible(true);\r\n    }\r\n\r\n    // Создание панели для элемента\r\n    private JPanel createElementPanel(String elementName, String[] options, double[] prices) {\r\n        JPanel panel = new JPanel(new GridLayout(0, 1));\r\n        panel.setBorder(BorderFactory.createTitledBorder(elementName));\r\n        ButtonGroup group = new ButtonGroup();\r\n\r\n        JRadioButton[] buttons = new JRadioButton[options.length];\r\n        for (int i = 0; i < options.length; i++)\r\n        {\r\n            buttons[i] = new JRadioButton(options[i]);\r\n            buttons[i].setActionCommand(String.valueOf(prices[i]));\r\n            group.add(buttons[i]);\r\n            panel.add(buttons[i]);\r\n        }\r\n\r\n        // Сохранение ссылок на кнопки для каждого элемента\r\n        switch (elementName)\r\n        {\r\n            case \"Фундамент\":\r\n                foundationButtons = buttons;\r\n                break;\r\n            case \"Стены\":\r\n                wallButtons = buttons;\r\n                break;\r\n            case \"Крыша\":\r\n                roofButtons = buttons;\r\n                break;\r\n            case \"Отделка\":\r\n                finishingButtons = buttons;\r\n                break;\r\n        }\r\n\r\n        return panel;\r\n    }\r\n    // Выполнение нажатия кнопки\r\n    public void actionPerformed(ActionEvent e)\r\n    {\r\n        if (e.getSource() == calculateButton)\r\n        {\r\n            double area = Double.parseDouble(areaField.getText());\r\n            double totalCost = calculateTotalCost(area);\r\n            resultArea.setText(\"Общая стоимость строительства: \" + totalCost + \" руб.\");\r\n        }\r\n    }\r\n\r\n    // Метод - калькулятор суммы\r\n    private double calculateTotalCost(double area)\r\n    {\r\n        double totalCost = 0;\r\n\r\n        for (JRadioButton button : foundationButtons) {\r\n            if (button.isSelected()) {\r\n                String[] parts = button.getText().split(\" \");\r\n                String priceString = parts[parts.length - 2].replaceAll(\"[^\\\\d.]\", \"\");\r\n                double price = Double.parseDouble(priceString);\r\n                Foundation foundation = new Foundation(button.getText(), price);\r\n                totalCost += foundation.calculateCost(area);\r\n                break;\r\n            }\r\n        }\r\n\r\n        for (JRadioButton button : wallButtons) {\r\n            if (button.isSelected()) {\r\n                String[] parts = button.getText().split(\" \");\r\n                String priceString = parts[parts.length - 2].replaceAll(\"[^\\\\d.]\", \"\");\r\n                double price = Double.parseDouble(priceString);\r\n                Wall wall = new Wall(button.getText(), price);\r\n                totalCost += wall.calculateCost(area);\r\n                break;\r\n            }\r\n        }\r\n\r\n        for (JRadioButton button : roofButtons) {\r\n            if (button.isSelected()) {\r\n                String[] parts = button.getText().split(\" \");\r\n                String priceString = parts[parts.length - 2].replaceAll(\"[^\\\\d.]\", \"\");\r\n                double price = Double.parseDouble(priceString);\r\n                Roof roof = new Roof(button.getText(), price);\r\n                totalCost += roof.calculateCost(area);\r\n                break;\r\n            }\r\n        }\r\n\r\n        for (JRadioButton button : finishingButtons) {\r\n            if (button.isSelected()) {\r\n                String[] parts = button.getText().split(\" \");\r\n                String priceString = parts[parts.length - 2].replaceAll(\"[^\\\\d.]\", \"\");\r\n                double price = Double.parseDouble(priceString);\r\n                Finishing finishing = new Finishing(button.getText(), price);\r\n                totalCost += finishing.calculateCost(area);\r\n                break;\r\n            }\r\n        }\r\n        return totalCost;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/ui/CalculatorGUI.java b/src/ui/CalculatorGUI.java
+--- a/src/ui/CalculatorGUI.java	(revision 41da9e684d34f04870c60ab1dc123db45a810243)
++++ b/src/ui/CalculatorGUI.java	(date 1714788007849)
+@@ -1,6 +1,14 @@
+ package ui;
+ 
++import javax.swing.*;
++import java.awt.*;
++import java.awt.event.ActionEvent;
++import java.awt.event.ActionListener;
++
+ import model.Foundation;
++import model.Wall;
++import model.Roof;
++import model.Finishing;
+ 
+ // Главное окно
+ class CalculatorGUI extends JFrame implements ActionListener
+Index: src/model/Foundation.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/model/Foundation.java b/src/model/Foundation.java
+--- a/src/model/Foundation.java	(revision 41da9e684d34f04870c60ab1dc123db45a810243)
++++ b/src/model/Foundation.java	(date 1714787897338)
+@@ -1,0 +1,12 @@
++package model;
++
++public class Finishing extends ConstructionElement {
++    public Finishing(String name, double pricePerSquareMeter) {
++        super(name, pricePerSquareMeter);
++    }
++
++    @Override
++    public double calculateCost(double area) {
++        return area * pricePerSquareMeter;
++    }
++}
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"e1c29fde-351d-444e-ab70-adcc2be6b251\" name=\"Changes\" comment=\"Создание проекта\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/model/ConstructionElement.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/model/Foundation.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/ui/CalculatorGUI.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"CodeStyleSettingsInfer\">\r\n    <option name=\"done\" value=\"true\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"useMavenConfig\" value=\"true\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectCodeStyleSettingsMigration\">\r\n    <option name=\"version\" value=\"2\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2fyNW5plex7yjGtJ4SiRXf5Ouo6\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"e1c29fde-351d-444e-ab70-adcc2be6b251\" name=\"Changes\" comment=\"\" />\r\n      <created>1714769389065</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1714769389065</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Создание проекта\">\r\n      <created>1714769746684</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1714769746684</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"2\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Создание проекта\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Создание проекта\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 41da9e684d34f04870c60ab1dc123db45a810243)
++++ b/.idea/workspace.xml	(date 1714788008663)
+@@ -4,11 +4,13 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="e1c29fde-351d-444e-ab70-adcc2be6b251" name="Changes" comment="Создание проекта">
+-      <change afterPath="$PROJECT_DIR$/src/model/ConstructionElement.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/model/Foundation.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/ui/CalculatorGUI.java" afterDir="false" />
++    <list default="true" id="e1c29fde-351d-444e-ab70-adcc2be6b251" name="Changes" comment="Главное окно и его графическое оформление">
++      <change afterPath="$PROJECT_DIR$/src/model/Finishing.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/model/Roof.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/model/Wall.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/model/Foundation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Foundation.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ui/CalculatorGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/CalculatorGUI.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -62,7 +64,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1714769746684</updated>
+     </task>
+-    <option name="localTasksCounter" value="2" />
++    <task id="LOCAL-00002" summary="Главное окно и его графическое оформление">
++      <created>1714770558743</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1714770558743</updated>
++    </task>
++    <option name="localTasksCounter" value="3" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -78,6 +87,7 @@
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Создание проекта" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Создание проекта" />
++    <MESSAGE value="Главное окно и его графическое оформление" />
++    <option name="LAST_COMMIT_MESSAGE" value="Главное окно и его графическое оформление" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/model/Finishing.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/model/Finishing.java b/src/model/Finishing.java
+new file mode 100644
+--- /dev/null	(date 1714787964609)
++++ b/src/model/Finishing.java	(date 1714787964609)
+@@ -0,0 +1,12 @@
++package model;
++
++public class Finishing extends ConstructionElement {
++    public Finishing(String name, double pricePerSquareMeter) {
++        super(name, pricePerSquareMeter);
++    }
++
++    @Override
++    public double calculateCost(double area) {
++        return area * pricePerSquareMeter;
++    }
++}
+\ No newline at end of file
+Index: src/model/Wall.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/model/Wall.java b/src/model/Wall.java
+new file mode 100644
+--- /dev/null	(date 1714787931800)
++++ b/src/model/Wall.java	(date 1714787931800)
+@@ -0,0 +1,12 @@
++package model;
++
++public class Wall extends ConstructionElement {
++    public Wall(String name, double pricePerSquareMeter) {
++        super(name, pricePerSquareMeter);
++    }
++
++    @Override
++    public double calculateCost(double area) {
++        return area * pricePerSquareMeter;
++    }
++}
+\ No newline at end of file
+Index: src/model/Roof.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/model/Roof.java b/src/model/Roof.java
+new file mode 100644
+--- /dev/null	(date 1714787951822)
++++ b/src/model/Roof.java	(date 1714787951822)
+@@ -0,0 +1,12 @@
++package model;
++
++public class Roof extends ConstructionElement {
++    public Roof(String name, double pricePerSquareMeter) {
++        super(name, pricePerSquareMeter);
++    }
++
++    @Override
++    public double calculateCost(double area) {
++        return area * pricePerSquareMeter;
++    }
++}
+\ No newline at end of file
