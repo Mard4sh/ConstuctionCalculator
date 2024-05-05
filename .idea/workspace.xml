@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ConstuctionCalculator:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1c29fde-351d-444e-ab70-adcc2be6b251" name="Changes" comment="fixup! Revert &quot;Главное окно и его графическое оформление&quot;" />
+    <list default="true" id="e1c29fde-351d-444e-ab70-adcc2be6b251" name="Changes" comment="Исправление ошибок">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/ConstuctionCalculator_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/ConstructionElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ConstructionElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Finishing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Finishing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Foundation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Foundation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Roof.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Roof.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Wall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Wall.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/CalculatorGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/CalculatorGUI.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,6 +43,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
   </component>
@@ -38,9 +58,20 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dasha/IdeaProjects/laba1&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Dasha\IdeaProjects\ConstuctionCalculator\src\main" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -57,8 +88,25 @@
       <option name="project" value="LOCAL" />
       <updated>1714769746684</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Оформление классов">
+      <created>1714790919234</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714790919234</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -73,6 +121,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Создание проекта" />
-    <option name="LAST_COMMIT_MESSAGE" value="Создание проекта" />
+    <MESSAGE value="Оформление классов" />
+    <option name="LAST_COMMIT_MESSAGE" value="Оформление классов" />
   </component>
 </project>

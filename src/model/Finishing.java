@@ -5,8 +5,7 @@ public class Finishing extends ConstructionElement {
         super(name, pricePerSquareMeter);
     }
 
-    @Override
     public double calculateCost(double area) {
-        return area * pricePerSquareMeter;
+        return area * getPricePerSquareMeter();
     }
 }

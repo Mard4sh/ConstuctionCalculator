@@ -1,12 +1,11 @@
 package model;
 
-public class Finishing extends ConstructionElement {
-    public Finishing(String name, double pricePerSquareMeter) {
+public class Foundation extends ConstructionElement {
+    public Foundation(String name, double pricePerSquareMeter) {
         super(name, pricePerSquareMeter);
     }
 
-    @Override
     public double calculateCost(double area) {
-        return area * pricePerSquareMeter;
+        return area * getPricePerSquareMeter();
     }
 }
